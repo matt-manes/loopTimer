@@ -1,4 +1,9 @@
 # loopTimer
+Install with:
+<pre>
+python -m pip install git+https://github.com/matt-manes/loopTimer
+</pre>
+Git must be installed and in your PATH.<br><br>
 Simple timer class to track average elapsed time with optional sub-second precision.<br>
 Usage:<br>
 <pre>
