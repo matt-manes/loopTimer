@@ -1,8 +1,8 @@
 from datetime import datetime
 
 class Timer:
-    """ Simple timer class that tracks total elapsed time\n 
-        and average time between calls to 'start' and 'stop'. """
+    """ Simple timer class that tracks total elapsed time
+    and average time between calls to 'start' and 'stop'. """
     def __init__(self, averagingWindowLength:int=10, subsecondFormat:bool=False):
         """ :param averagingWindowLength: Number of start/stop cycles
         to calculate the average elapsed time with.\n
@@ -11,7 +11,7 @@ class Timer:
         self.startTime = 0
         self.stopTime = 0
         self.averageElapsedTime = 0
-        self.history = []
+        self.history = [0]
         self.elapsedTime = 0
         self.averagingWindowLength = averagingWindowLength
         self.subsecondFormat = subsecondFormat
@@ -23,7 +23,8 @@ class Timer:
         self.started = True
         
     def stop(self):
-        """ Stop timer.\n
+        """ Stop timer.
+        
         Calculates elapsed time and average elapsed time."""
         self.stopTime = datetime.now()
         self.started = False
@@ -34,14 +35,13 @@ class Timer:
     def _saveElapsedTime(self):
         """ Saves current elapsed time to the history buffer 
         in a FIFO manner."""
-        if len(self.history) == 0:
-            self.history = [self.elapsedTime]*self.averagingWindowLength
-        else:
+        if len(self.history) >= self.averagingWindowLength:
             self.history.pop(0)
-            self.history.append(self.elapsedTime)
+        self.history.append(self.elapsedTime)
     
     def checkTime(self, format:bool=True)->float|str:
-        """ Returns current elapsed without stopping the timer.\n
+        """ Returns current elapsed without stopping the timer.
+        
         :param format: If True, elapsed time is returned as a string. 
         If False, elapsed time is returned as a float."""
         self.elapsedTime = (datetime.now() - self.startTime).total_seconds()
@@ -49,9 +49,11 @@ class Timer:
     
     def _getTimeUnit(self, numSeconds:float, secondsPerUnit:float, unitSuffix:str)->tuple[float, str]:
         """ Determines the number of units in a given number of seconds
-        by integer division.\n
+        by integer division.
+        
         Returns a tuple containing the remaining number of seconds after division 
         as well as the number of units as a string with 'unitSuffix' appended to the string.
+        
         e.g. _getTimeUnit(124, 60, 'm') will return (4, '2m')"""
         numUnits = int(numSeconds/secondsPerUnit)
         if numUnits > 0:
