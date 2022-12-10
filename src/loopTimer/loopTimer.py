@@ -11,7 +11,7 @@ class Timer:
         self.startTime = 0
         self.stopTime = 0
         self.averageElapsedTime = 0
-        self.history = [0]
+        self.history = []
         self.elapsedTime = 0
         self.averagingWindowLength = averagingWindowLength
         self.subsecondFormat = subsecondFormat
@@ -92,3 +92,14 @@ class Timer:
             return f'elapsed time: {self.formatTime(self.elapsedTime)}\naverage elapsed time: {self.formatTime(self.averageElapsedTime)}'
         else:
             return f'elapsed time: {self.elapsedTime}s\naverage elapsed time: {self.averageElapsedTime}s'
+if __name__ == '__main__':
+    import time
+    timer = Timer(subsecondFormat=True)
+    def veryComplicatedFunction():
+        time.sleep(1)
+    for _ in range(10):
+        timer.start()
+        veryComplicatedFunction()
+        timer.stop()
+    print(f'{timer.averageElapsedTime=}')
+    print(timer.getStats())
