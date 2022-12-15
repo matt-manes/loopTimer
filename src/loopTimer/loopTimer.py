@@ -79,7 +79,7 @@ class Timer:
         secondsPerYear = secondsPerMonth * 12
         timeUnits = [
             (secondsPerYear, "y"),
-            (secondsPerMonth, "m"),
+            (secondsPerMonth, "mn"),
             (secondsPerWeek, "w"),
             (secondsPerDay, "d"),
             (secondsPerHour, "h"),
@@ -105,19 +105,3 @@ class Timer:
             return f"elapsed time: {self.formatTime(self.elapsedTime)}\naverage elapsed time: {self.formatTime(self.averageElapsedTime)}"
         else:
             return f"elapsed time: {self.elapsedTime}s\naverage elapsed time: {self.averageElapsedTime}s"
-
-
-if __name__ == "__main__":
-    import time
-
-    timer = Timer(subsecondFormat=True)
-
-    def veryComplicatedFunction():
-        time.sleep(1)
-
-    for _ in range(10):
-        timer.start()
-        veryComplicatedFunction()
-        timer.stop()
-    print(f"{timer.averageElapsedTime=}")
-    print(timer.getStats())
